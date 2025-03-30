@@ -9,5 +9,5 @@ import com.supersection.patientservice.model.Patient;
 
 @Repository
 public interface PatientRepostory extends JpaRepository<Patient, UUID> {
-
+  boolean existsByEmail(String email);
 }
