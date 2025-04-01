@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: patient-service-db
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: patient_db
+    ports:
+      - 5432:5432
+    volumes:
+      - D:/Development_Files/db_volumes/patient-management:/var/lib/postgresql/data
+    networks:
+      - internal
+
+networks:
+  internal:
+    name: internal
