@@ -1,4 +1,4 @@
-package com.supersection.patient_service;
+package com.supersection.patientservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: patient-service-db
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: patient_db
+    ports:
+      - 5432:5432
+    volumes:
+      - D:/Development_Files/db_volumes/patient-management:/var/lib/postgresql/data
+    networks:
+      - internal
+
+  patient-service:
+    build:
+      context: .   # Path to Dockerfile inside patient-service folder
+      dockerfile: Dockerfile        # Name of the Dockerfile (default)
+    image: patient-service:latest   # Name the built image
+    container_name: patient-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://patient-service-db:5432/patient_db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_SQL_INIT_MODE: always
+    ports:
+      - 4000:4000
+    depends_on:
+      - postgres
+    networks:
+      - internal
+
+networks:
+  internal:
+    name: internal
