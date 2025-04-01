@@ -10,4 +10,8 @@ import com.supersection.patientservice.model.Patient;
 @Repository
 public interface PatientRepostory extends JpaRepository<Patient, UUID> {
   boolean existsByEmail(String email);
+
+  // Check if there is another patient in the database
+  // with the same Email as we are passing, but with a different ID
+  boolean existsByEmailAndIdNot(String email, UUID id);
 }
