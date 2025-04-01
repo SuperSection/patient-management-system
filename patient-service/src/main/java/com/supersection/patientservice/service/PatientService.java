@@ -44,8 +44,7 @@ public class PatientService {
     UUID id, PatientRequestDTO patientRequestDTO
   ) {
     Patient patient = patientRepostory.findById(id).orElseThrow(
-      () -> new PatientNotFoundException("Patient not found with ID: " + id)
-    );
+        () -> new PatientNotFoundException("Patient not found with ID: " + id));
 
     if (patientRepostory.existsByEmailAndIdNot(patientRequestDTO.getEmail(), id)) {
       throw new EmailAlreadyExistsException(
@@ -59,5 +58,9 @@ public class PatientService {
 
     Patient updatedPatient = patientRepostory.save(patient);
     return PatientMapper.toDTO(updatedPatient);
+  }
+
+  public void deletePatient(UUID id) {
+    patientRepostory.deleteById(id);
   }
 }
