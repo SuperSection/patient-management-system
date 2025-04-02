@@ -19,7 +19,7 @@ public class BillingGrpcService extends BillingServiceImplBase {
       BillingRequest billingRequest,
       StreamObserver<BillingResponse> responseObserver
   ) {
-    log.info("createBillingAccoubt request received {}", billingRequest.toString());
+    log.info("createBillingAccount request received {}", billingRequest.toString());
 
     // Business logic - e.g. save to database, perform caculates etc.
 

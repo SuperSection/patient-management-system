@@ -1,0 +1,16 @@
+services:
+  billing-service:
+    build:
+      context: .   # Path to Dockerfile inside billing-service folder
+      dockerfile: Dockerfile        # Name of the Dockerfile (default)
+    image: billing-service:latest   # Name the built image
+    container_name: billing-service
+    ports:
+      - 4001:4001
+      - 9001:9001
+    networks:
+      - internal
+
+networks:
+  internal:
+    name: internal
