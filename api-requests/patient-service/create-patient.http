@@ -3,8 +3,8 @@ POST http://localhost:4000/api/v1/patients
 Content-Type: application/json
 
 {
-  "name": "Random Man",
-  "email": "random@gmail.com",
+  "name": "Billing Proto Tester",
+  "email": "testing_billing_grpc@gmail.com",
   "address": "123 random street",
   "dateOfBirth": "1995-02-01",
   "registeredDate": "2024-11-20"

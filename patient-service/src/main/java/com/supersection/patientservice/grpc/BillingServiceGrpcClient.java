@@ -5,9 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import billing.BillingRequest;
-import billing.BillingResponse;
-import billing.BillingServiceGrpc;
+import com.supersection.grpc.BillingRequest;
+import com.supersection.grpc.BillingResponse;
+import com.supersection.grpc.BillingServiceGrpc;
+
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 

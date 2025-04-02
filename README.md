@@ -50,3 +50,61 @@
     cd billing-service
     docker compose -f .\docker-compose.billing-service.yml up -d
     ```
+
+## gRPC (Google Remote Procedure Calls)
+
+gRPC is a high-performance, open-source RPC (Remote Procedure Call) framework that enables seamless communication between microservices. It uses Protocol Buffers (Protobuf) as the interface definition language (IDL) and supports bi-directional streaming and efficient binary serialization.
+
+### Why Use gRPC?
+
+- **Efficient & Fast** - Uses HTTP/2 and Protobuf for compact and fast communication.
+- **Strongly Typed APIs** - Enforces contract-based communication using .proto files.
+- **Streaming Support** - Supports Unary, Server Streaming, Client Streaming, and Bi-directional Streaming.
+- **Multi-language Support** - Works across multiple programming languages.
+- gRPC supports both synchronous and asynchronous Remote Procedure Calls (RPCs)
+
+### Architecture in Microservices
+
+- gRPC Server (Billing Service) → Provides gRPC services.
+- gRPC Clients (Other Services) → Consume the services via generated stubs.
+- Proto File (.proto) → Defines the service contract.
+
+### gRPC Implementation in `billing_service.proto`
+
+```proto
+syntax = "proto3";
+
+package billing;
+option java_multiple_files = true;
+option java_package = "com.supersection.grpc";
+option java_outer_classname = "BillingProto";
+
+
+service BillingService {
+  rpc CreateBillingAccount (BillingRequest) returns (BillingResponse);
+}
+
+message BillingRequest {
+  string patientId = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message BillingResponse {
+  string accountId = 1;
+  string status = 2;
+}
+```
+
+#### Generate Java Classes from Proto
+
+```bash
+mvn clean compile
+```
+
+### gRPC Communication Flow
+
+1. Client Microservice calls gRPC stub.
+2. Stub converts request into a Protobuf message and sends it via HTTP/2.
+3. Server Microservice (Billing Service) processes the request and sends a response.
+4. Client receives response and processes it.
