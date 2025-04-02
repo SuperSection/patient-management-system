@@ -3,7 +3,6 @@ syntax = "proto3";
 package billing;
 option java_multiple_files = true;
 option java_package = "com.supersection.grpc";
-option java_outer_classname = "BillingProto";
 
 
 service BillingService {
