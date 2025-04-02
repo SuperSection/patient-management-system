@@ -34,3 +34,19 @@
 
     - The Swagger UI page will then be available at <http://server:port/context-path/swagger-ui.html>
     - The OpenAPI description will be available at the following url for json format: <http://server:port/context-path/v3/api-docs>
+
+## Run docker compose to Start each service
+
+1. Patient Service
+
+    ```bash
+    cd patient-service
+    docker compose -f .\docker-compose.patient-service.yml up -d
+    ```
+
+2. Billing Service
+
+    ```bash
+    cd billing-service
+    docker compose -f .\docker-compose.billing-service.yml up -d
+    ```

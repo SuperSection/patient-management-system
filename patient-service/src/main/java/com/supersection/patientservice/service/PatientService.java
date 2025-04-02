@@ -10,16 +10,20 @@ import com.supersection.patientservice.dto.PatientRequestDTO;
 import com.supersection.patientservice.dto.PatientResponseDTO;
 import com.supersection.patientservice.exception.EmailAlreadyExistsException;
 import com.supersection.patientservice.exception.PatientNotFoundException;
+import com.supersection.patientservice.grpc.BillingServiceGrpcClient;
 import com.supersection.patientservice.mapper.PatientMapper;
 import com.supersection.patientservice.model.Patient;
 import com.supersection.patientservice.repository.PatientRepostory;
 
 @Service
 public class PatientService {
-  private final PatientRepostory patientRepostory;
 
-  public PatientService(PatientRepostory patientRepostory) {
+  private final PatientRepostory patientRepostory;
+  private final BillingServiceGrpcClient billingServiceGrpcClient;
+
+  public PatientService(PatientRepostory patientRepostory, BillingServiceGrpcClient billingServiceGrpcClient) {
     this.patientRepostory = patientRepostory;
+    this.billingServiceGrpcClient = billingServiceGrpcClient;
   }
 
   public List<PatientResponseDTO> getPatients() {
@@ -37,6 +41,10 @@ public class PatientService {
 
     Patient newPatient = patientRepostory.save(
         PatientMapper.toModel(patientRequestDTO));
+
+    billingServiceGrpcClient.createBillingAccount(
+        newPatient.getId().toString(), newPatient.getName(), newPatient.getEmail()
+      );
     return PatientMapper.toDTO(newPatient);
   }
 
