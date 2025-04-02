@@ -51,6 +51,8 @@
     docker compose -f .\docker-compose.billing-service.yml up -d
     ```
 
+---
+
 ## gRPC (Google Remote Procedure Calls)
 
 gRPC is a high-performance, open-source RPC (Remote Procedure Call) framework that enables seamless communication between microservices. It uses Protocol Buffers (Protobuf) as the interface definition language (IDL) and supports bi-directional streaming and efficient binary serialization.
@@ -108,3 +110,23 @@ mvn clean compile
 2. Stub converts request into a Protobuf message and sends it via HTTP/2.
 3. Server Microservice (Billing Service) processes the request and sends a response.
 4. Client receives response and processes it.
+
+---
+
+## Kafka
+
+### gRPC vs Kafka
+
+- **gRPC**: 1-to-1 microservice communication, when you need an immediate response (synchronous).
+- **Kafka**: 1-to-many microservice communicate, do not need an immediate response (i.e., asynchronous)
+
+### Architecture of Kafka
+
+![Kafka Architecture](./diagrams/kafka-architecture.png)
+
+### IDE Setup
+
+- **VS Code**: Install "vscode-kafka" extension and Add a new Cluster
+- **IntelliJ IDEA**: Install "Kafka" plugin and Add a new Connection
+
+> For VSCode, use `.kafka` files for handling consumer & producer

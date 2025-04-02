@@ -1,0 +1,4 @@
+CONSUMER consumer-group-id
+topic: patient
+key-format: string
+value-format: string(base64)

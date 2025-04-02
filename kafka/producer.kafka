@@ -1,0 +1,8 @@
+PRODUCER keyed-message
+topic: patient
+key-format: string
+key: testkey
+value-format: string(base64)
+testvalue
+
+###
