@@ -1,2 +1,2 @@
 ### DELETE requests to delete a patient
-DELETE http://localhost:4000/api/v1/patients/123e4567-e89b-12d3-a456-426614174002
+DELETE http://localhost:4000/api/v1/patients/c45d7209-05f6-4f40-9b2c-916304c95224

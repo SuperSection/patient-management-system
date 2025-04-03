@@ -1,0 +1,17 @@
+services:
+  analytics-service:
+    build:
+      context: .   # Path to Dockerfile inside analytics-service folder
+      dockerfile: Dockerfile        # Name of the Dockerfile (default)
+    image: analytics-service:latest   # Name the built image
+    container_name: analytics-service
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    ports:
+      - 4002:4002
+    networks:
+      - internal
+
+networks:
+  internal:
+    name: internal
