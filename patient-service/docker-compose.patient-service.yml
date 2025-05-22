@@ -10,7 +10,7 @@ services:
     ports:
       - 5000:5432
     volumes:
-      - D:/Development_Files/db_volumes/patient-management:/var/lib/postgresql/data
+      - D:/Development_Files/db_volumes/patient-service-db:/var/lib/postgresql/data
     networks:
       - internal
 
