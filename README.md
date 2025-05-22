@@ -271,3 +271,23 @@ mvn clean compile
 4. Check if the files are correctly regenerated.
 
 ---
+
+## API Gateways
+
+- An API Gateway acts as a single entry point for clients to interact with multiple microservices.
+
+- **Responsibilitis**:
+
+  - Request routing to appropriate microservices.
+  - Aggregating responses from multiple services.
+  - Authentication and authorization.
+  - Rate limiting and throttling.
+  - Logging and monitoring.
+  - Handling cross-cutting concerns (e.g., CORS, caching).
+
+- **Why Use It**:
+  - Hides service internals from the client.
+  - Simplifies client-side logic.
+  - Enhances security and control.
+
+- **Common Tools**: Kong, NGINX, AWS API Gateway, Istio (in service mesh), Spring Cloud Gateway, Zuul.
