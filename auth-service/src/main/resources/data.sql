@@ -7,12 +7,12 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 -- Insert the user if it doesn't already exist
-INSERT INTO "users" (id, email, password, role)
+INSERT INTO users (id, email, password, role)
 SELECT '223e4567-e89b-12d3-a456-426614174006', 'adminuser@test.com',
        '$2b$12$7hoRZfJrRKD2nIm2vHLs7OBETy.LWenXXMLKf99W8M4PUwO6KB7fu', 'ADMIN'
 WHERE NOT EXISTS (
     SELECT 1
-    FROM "users"
+    FROM users
     WHERE id = '223e4567-e89b-12d3-a456-426614174006'
        OR email = 'adminuser@test.com'
 );

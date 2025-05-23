@@ -22,11 +22,11 @@ services:
     image: auth-service:latest   # Name the built image
     container_name: auth-service
     environment:
-      SPRING_DATASOURCE_PASSWORD=password
-      SPRING_DATASOURCE_URL=jdbc:postgresql://auth-service-db:5432/db
-      SPRING_DATASOURCE_USERNAME=admin
-      SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      SPRING_SQL_INIT_MODE=always
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_URL: jdbc:postgresql://auth-service-db:5432/auth_db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_SQL_INIT_MODE: always
     depends_on:
       - postgres
     ports:

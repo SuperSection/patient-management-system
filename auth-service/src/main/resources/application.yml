@@ -2,6 +2,18 @@ spring:
   application:
     name: auth-service
 
+  # jpa:
+  #   hibernate:
+  #     ddl-auto: update
+
+  # datasource:
+  #   url: jdbc:postgresql://auth-service-db:5432/auth_db
+  #   username: admin
+  #   password: password
+
+  # sql:
+  #   init:
+  #     mode: always
 
 server:
   port: 4005
