@@ -27,6 +27,7 @@ services:
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_SQL_INIT_MODE: always
+      JWT_SECRET: E1AgKPVP2BlPDyt62fTpX8Z4uedTYrs+VTWS7FC2MvNnyCgpC7vXHxQC5Fx5FiwPUlkkZUSTQu1C/iDwSjqGdw==
     depends_on:
       - postgres
     ports:
