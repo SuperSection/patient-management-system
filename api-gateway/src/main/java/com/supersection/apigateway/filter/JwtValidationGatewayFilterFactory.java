@@ -32,7 +32,7 @@ public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFact
         return exchange.getResponse().setComplete();
       }
 
-      return webClient.post()
+      return webClient.get()
           .uri("/validate")
           .header(HttpHeaders.AUTHORIZATION, jwtToken)
           .retrieve()

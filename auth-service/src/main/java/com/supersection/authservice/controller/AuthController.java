@@ -47,7 +47,7 @@ public class AuthController {
 
   @Operation(summary = "Validate JWT token")
   @GetMapping("/validate")
-  public ResponseEntity<Void> validateToken(@RequestHeader("Authorzation") String authHeader) {
+  public ResponseEntity<Void> validateToken(@RequestHeader("Authorization") String authHeader) {
 
     if (authHeader == null || !authHeader.startsWith("Bearer ")) {
       return ResponseEntity
