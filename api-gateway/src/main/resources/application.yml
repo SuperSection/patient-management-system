@@ -10,7 +10,7 @@ spring:
     gateway:
       routes:
         # REST CLIENT -> http://localhost:4004/auth/login
-        # API GATEWAY -> http://patient-service:4005/login
+        # API GATEWAY -> http://auth-service:4005/login
         - id: auth-service-route
           uri: http://auth-service:4005
           predicates:
@@ -38,6 +38,8 @@ spring:
           filters:
             - RewritePath=/api-docs/patients,/v3/api-docs
 
+        # REST CLIENT -> http://localhost:4004/api-docs/patients
+        # API GATEWAY -> http://auth-service:4005/v3/api-docs
         - id: api-docs-auth-route
           uri: http://auth-service:4005
           predicates:
