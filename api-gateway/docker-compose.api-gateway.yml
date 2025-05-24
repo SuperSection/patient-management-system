@@ -5,6 +5,8 @@ services:
       dockerfile: Dockerfile    # Name of the Dockerfile (default)
     image: api-gateway:latest   # Name the built image
     container_name: api-gateway
+    environment:
+      - AUTH_SERVICE_URL=http://auth-service:4005
     ports:
       - 4004:4004
     networks:
