@@ -30,8 +30,8 @@ services:
       JWT_SECRET: E1AgKPVP2BlPDyt62fTpX8Z4uedTYrs+VTWS7FC2MvNnyCgpC7vXHxQC5Fx5FiwPUlkkZUSTQu1C/iDwSjqGdw==
     depends_on:
       - postgres
-    ports:
-      - 4005:4005
+    # ports:
+    #   - 4005:4005
     networks:
       - internal
 
