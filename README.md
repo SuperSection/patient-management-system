@@ -358,3 +358,21 @@ Check out these dependencies and their latest versions on [Official Maven Reposi
     <scope>test</scope>
 </dependency>
 ```
+
+---
+
+## Introduction to Testing
+
+- **Unit Testing**: Tests individual units (classes, methods) in isolation.
+
+- **Integration Testing**: Tests multiple components working together, such as a controller, service, repository. Can also mean testing multiple parts of a wider system.
+
+- **E2E Testing**: Tests the complete workflow of the application, from UI to API.
+
+- Security Testing, Performance Testing, Constract Testing, Acceptance Testing etc.
+
+### Integration Test for this project
+
+Using [REST-assured](https://rest-assured.io/) for testing of REST services.
+
+---
