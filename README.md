@@ -375,4 +375,23 @@ Check out these dependencies and their latest versions on [Official Maven Reposi
 
 Using [REST-assured](https://rest-assured.io/) for testing of REST services.
 
+#### Dependencies for Integration Tests module
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>io.rest-assured</groupId>
+        <artifactId>rest-assured</artifactId>
+        <version>5.3.0</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>5.11.4</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
+```
+
 ---
