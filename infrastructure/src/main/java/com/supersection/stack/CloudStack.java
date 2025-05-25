@@ -3,9 +3,18 @@ package com.supersection.stack;
 import software.amazon.awscdk.App;
 import software.amazon.awscdk.AppProps;
 import software.amazon.awscdk.BootstraplessSynthesizer;
+import software.amazon.awscdk.RemovalPolicy;
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
+import software.amazon.awscdk.services.ec2.InstanceClass;
+import software.amazon.awscdk.services.ec2.InstanceSize;
+import software.amazon.awscdk.services.ec2.InstanceType;
 import software.amazon.awscdk.services.ec2.Vpc;
+import software.amazon.awscdk.services.rds.Credentials;
+import software.amazon.awscdk.services.rds.DatabaseInstance;
+import software.amazon.awscdk.services.rds.DatabaseInstanceEngine;
+import software.amazon.awscdk.services.rds.PostgresEngineVersion;
+import software.amazon.awscdk.services.rds.PostgresInstanceEngineProps;
 
 
 public class CloudStack extends Stack {
@@ -16,13 +25,36 @@ public class CloudStack extends Stack {
     super(scope, id, props);
 
     this.vpc = createVpc();
+
+    DatabaseInstance authServiceDB = createDatabase(
+        "AuthServiceDB", "auth-service-db"
+      );
+    DatabaseInstance patientServiceDB = createDatabase(
+        "PatientServiceDB", "patient-service-db"
+      );
   }
 
 
   private Vpc createVpc() {
     return Vpc.Builder.create(this, "PatientManagmentVPC")
         .vpcName("PatientManagmentVPC")
-        .maxAzs(3) // Default is all AZs in the region
+        .maxAzs(3)
+        .build();
+  }
+
+  private DatabaseInstance createDatabase(String id, String dbName) {
+    return DatabaseInstance.Builder.create(this, id)
+        .engine(DatabaseInstanceEngine.postgres(
+            PostgresInstanceEngineProps.builder()
+                .version(PostgresEngineVersion.VER_17_2)
+                .build()))
+        .instanceType(
+            InstanceType.of(InstanceClass.BURSTABLE3, InstanceSize.MICRO))
+        .allocatedStorage(20)
+        .vpc(vpc)
+        .credentials(Credentials.fromGeneratedSecret("admin"))
+        .databaseName(dbName)
+        .removalPolicy(RemovalPolicy.DESTROY)
         .build();
   }
 
