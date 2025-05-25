@@ -395,3 +395,40 @@ Using [REST-assured](https://rest-assured.io/) for testing of REST services.
 ```
 
 ---
+
+## Code Deployment
+
+- [AWS (Amazon Web Services)](https://aws.amazon.com/) - Not Free!
+- [Localstack](https://www.localstack.cloud/) - AWS simulator we can run locally
+- The deployment code and approach are compatible with actual AWS services.
+
+### Services to be used
+
+- VPC (Virtual Private Network)
+- ECS (Elastic Container Service)
+- ALB (Application Load Balancer)
+
+Install [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) locally.
+
+- Check aws-cli installation: `aws --version`
+- Configure aws-cli: `aws configure`
+
+- Check configuration:
+
+    ```bash
+    # For localstack setup
+    aws --endpoint-url=http://localhost:4566 lambda list-functions
+
+    # For official AWS account
+    aws --endpoint-url=http://localhost:4566 lambda list-functions
+    ```
+
+### IaC (Infrastructure as Code)
+
+- Write our infrastructure in Java Code, which can be put into source control, like we do with our application code
+
+- Environments can be created, destroyed easily and consistently
+
+- Easier to debug and follow along
+
+---
