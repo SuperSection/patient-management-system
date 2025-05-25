@@ -412,7 +412,6 @@ Install [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-start
 
 - Check aws-cli installation: `aws --version`
 - Configure aws-cli: `aws configure`
-
 - Check configuration:
 
     ```bash
@@ -426,9 +425,28 @@ Install [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-start
 ### IaC (Infrastructure as Code)
 
 - Write our infrastructure in Java Code, which can be put into source control, like we do with our application code
-
 - Environments can be created, destroyed easily and consistently
-
 - Easier to debug and follow along
 
+### Dependencies used for AWS Infrastructure as Java Code
+
+```xml
+<dependencies>
+    <dependency>
+      <groupId>software.amazon.awscdk</groupId>
+      <artifactId>aws-cdk-lib</artifactId>
+      <version>2.178.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.amazonaws</groupId>
+      <artifactId>aws-java-sdk</artifactId>
+      <version>1.12.780</version>
+    </dependency>
+</dependencies>
+```
+
 ---
+
+### Author
+
+Developed by [Soumo Sarkar](https://www.linkedin.com/in/soumo-sarkar/) @2025
