@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import software.amazon.awscdk.App;
 import software.amazon.awscdk.AppProps;
 import software.amazon.awscdk.BootstraplessSynthesizer;
+import software.amazon.awscdk.Duration;
 import software.amazon.awscdk.RemovalPolicy;
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
@@ -27,6 +28,7 @@ import software.amazon.awscdk.services.ecs.FargateTaskDefinition;
 import software.amazon.awscdk.services.ecs.LogDriver;
 import software.amazon.awscdk.services.ecs.PortMapping;
 import software.amazon.awscdk.services.ecs.Protocol;
+import software.amazon.awscdk.services.ecs.patterns.ApplicationLoadBalancedFargateService;
 import software.amazon.awscdk.services.logs.LogGroup;
 import software.amazon.awscdk.services.logs.RetentionDays;
 import software.amazon.awscdk.services.msk.CfnCluster;
@@ -110,6 +112,8 @@ public class CloudStack extends Stack {
     patientService.getNode().addDependency(patientServiceDBHealthCheck);
     patientService.getNode().addDependency(billingService);
     patientService.getNode().addDependency(mskCluster);
+
+    createApiGatewayService();
   }
 
 
@@ -185,23 +189,23 @@ public class CloudStack extends Stack {
         .memoryLimitMiB(512)
         .build();
 
-      ContainerDefinitionOptions.Builder containerOptions = ContainerDefinitionOptions.builder()
-        .image(ContainerImage.fromRegistry(imageName))
-        .portMappings(ports.stream()
-            .map(port -> PortMapping.builder()
-                .containerPort(port)
-                .hostPort(port)
-                .protocol(Protocol.TCP)
+    ContainerDefinitionOptions.Builder containerOptions = ContainerDefinitionOptions.builder()
+    .image(ContainerImage.fromRegistry(imageName))
+    .portMappings(ports.stream()
+        .map(port -> PortMapping.builder()
+            .containerPort(port)
+            .hostPort(port)
+            .protocol(Protocol.TCP)
+            .build())
+        .toList())
+    .logging(LogDriver.awsLogs(AwsLogDriverProps.builder()
+            .logGroup(LogGroup.Builder.create(this, id + "LogGroup")
+                .logGroupName("/ecs/" + imageName)
+                .removalPolicy(RemovalPolicy.DESTROY)
+                .retention(RetentionDays.ONE_DAY)
                 .build())
-            .toList())
-        .logging(LogDriver.awsLogs(AwsLogDriverProps.builder()
-                .logGroup(LogGroup.Builder.create(this, id + "LogGroup")
-                    .logGroupName("/ecs/" + imageName)
-                    .removalPolicy(RemovalPolicy.DESTROY)
-                    .retention(RetentionDays.ONE_DAY)
-                    .build())
-                .streamPrefix(imageName)
-            .build()));
+            .streamPrefix(imageName)
+        .build()));
 
     Map<String, String> envVars = new HashMap<>();
     // envVars.put("SPRING_KAFKA_BOOTSTRAP_SERVERS", "localhost.localstack.cloud:4510, localhost.localstack.cloud:4511, localhost.localstack.cloud:4512");
@@ -233,6 +237,48 @@ public class CloudStack extends Stack {
         .taskDefinition(taskDefinition)
         .assignPublicIp(false)
         .serviceName(imageName)
+        .build();
+  }
+
+  private void createApiGatewayService() {
+    FargateTaskDefinition taskDefinition = FargateTaskDefinition.Builder.create(this, "APIGatewayTaskDefinition")
+        .cpu(256)
+        .memoryLimitMiB(512)
+        .build();
+
+    ContainerDefinitionOptions containerOptions = ContainerDefinitionOptions.builder()
+        .image(ContainerImage.fromRegistry("api-gateway"))
+        .environment(Map.of(
+            "SPRING_PROFILES_ACTIVE", "prod",
+            "AUTH_SERVICE_URL", "http://auth-service:4005"
+        ))
+        .portMappings(List.of(4004).stream()
+            .map(port -> PortMapping.builder()
+                .containerPort(port)
+                .hostPort(port)
+                .protocol(Protocol.TCP)
+                .build())
+            .toList())
+        .logging(LogDriver.awsLogs(AwsLogDriverProps.builder()
+                .logGroup(LogGroup.Builder.create(this, "ApiGatewayLogGroup")
+                    .logGroupName("/ecs/api-gateway")
+                    .removalPolicy(RemovalPolicy.DESTROY)
+                    .retention(RetentionDays.ONE_DAY)
+                    .build())
+                .streamPrefix("api-gateway")
+            .build()))
+        .build();
+
+    taskDefinition.addContainer("ApiGatewayContainer", containerOptions);
+
+    // Create the Application Load Balanced Fargate Service for the API Gateway
+    ApplicationLoadBalancedFargateService apiGateway = ApplicationLoadBalancedFargateService.Builder
+        .create(this, "APIGatewayService")
+        .cluster(ecsCluster)
+        .serviceName("api-gateway")
+        .taskDefinition(taskDefinition)
+        .desiredCount(1)
+        .healthCheckGracePeriod(Duration.seconds(60))
         .build();
   }
 
