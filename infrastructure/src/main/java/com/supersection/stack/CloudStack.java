@@ -29,6 +29,7 @@ import software.amazon.awscdk.services.ecs.LogDriver;
 import software.amazon.awscdk.services.ecs.PortMapping;
 import software.amazon.awscdk.services.ecs.Protocol;
 import software.amazon.awscdk.services.ecs.patterns.ApplicationLoadBalancedFargateService;
+import software.amazon.awscdk.services.iam.ManagedPolicy;
 import software.amazon.awscdk.services.logs.LogGroup;
 import software.amazon.awscdk.services.logs.RetentionDays;
 import software.amazon.awscdk.services.msk.CfnCluster;
@@ -214,6 +215,10 @@ public class CloudStack extends Stack {
     if (additionalEnvVars != null) {
       envVars.putAll(additionalEnvVars);
     }
+
+    taskDefinition.obtainExecutionRole().addManagedPolicy(
+        ManagedPolicy.fromAwsManagedPolicyName("SecretsManagerReadWrite")
+    );
 
     if (db != null) {
       envVars.put("SPRING_DATASOURCE_URL", "jdbc:postgresql://%s:%s/%s-db".formatted(
