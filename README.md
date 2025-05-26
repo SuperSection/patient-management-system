@@ -445,6 +445,10 @@ Install [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-start
 </dependencies>
 ```
 
+### AWS Deployment Services
+
+![Deployment](./diagrams/aws-deployment.png)
+
 ---
 
 ### Author
