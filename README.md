@@ -451,6 +451,12 @@ Install [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-start
 
 ---
 
+### AWS Document Guides
+
+- [Create ECR Private repo](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-create.html) for storing docker images
+
+---
+
 ### Author
 
 Developed by [Soumo Sarkar](https://www.linkedin.com/in/soumo-sarkar/) @2025
